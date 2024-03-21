@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT</title>
+<style>
+    body {
+        margin:0;
+        padding: 3%;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #17025e, #f5059d);
+
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .scrollable-wrapper {
+        height: 80vh; /* Fixed height for scrollable area */
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        max-width: 1400px;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 20px; /* Increased border radius */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .scrollable-box {
+        overflow-y: auto;
+        height: 400px; /* Increased height */
+        width: 400px; /* Increased width */
+        background-color: transparent; /* Changed background color to transparent */
+        padding: 20px;
+        border-radius: 20px; /* Increased border radius */
+        margin: 0 10px; /* Added margin here */
+        color: black; /* Changed text color to black */
+    }
+
+    .form-container {
+        flex-grow: 1;
+        padding: 20px;
+        margin: 0 10px; /* Added margin here */
+        max-width: 40%;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+    }
+
+    .user {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: white;
+        border-radius: 20px; /* Increased border radius */
+        padding: 10px; /* Added padding */
+        cursor: pointer;
+    }
+
+    .user img {
+        width: 70px; /* Increased size */
+        height: 70px; /* Increased size */
+        border-radius: 50%; /* To make the photo circular */
+        margin-right: 20px;
+    }
+
+    .user-name {
+        font-weight: bold;
+    }
+
+    /* Custom checkbox style */
+    .custom-checkbox {
+        display: none; /* Initially hide checkboxes */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        border: 2px solid #333;
+        transition: background-color 0.3s, border-color 0.3s;
+        background-color: #00FF00; /* Default green color */
+    }
+
+    /* Checked state */
+    .custom-checkbox:checked {
+        background-color: #00FF00; /* Green background */
+        border-color: #00FF00; /* Green border */
+    }
+
+    /* Hover effect */
+    .custom-checkbox:hover {
+        background-color: rgba(0, 255, 0, 0.3);
+    }
+
+    h1 {
+        color: white;
+    }
+    .button-64 {
+  align-items: center;
+  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button-64:active,
+.button-64:hover {
+  outline: 0;
+}
+
+.button-64 span {
+  /* background-color: rgb(5, 6, 45); */
+  /* background-color:#17025e; */
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+.button-64:hover span {
+  background: none;
+}
+
+@media (min-width: 768px) {
+  .button-64 {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}
+
+:root {
+  --arrow-bg: rgba(255, 255, 255, 0.3);
+  --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
+  --option-bg: white;
+  --select-bg: rgba(255, 255, 255, 0.2);
+}
+
+
+/* <select> styles */
+select {
+  /* Reset */
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  width: 20rem;
+  padding: 1rem 4rem 1rem 1rem;
+  background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+  color: black;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+  /* <option> colors */
+  option {
+    color: inherit;
+    background-color: var(--option-bg);
+  }
+}
+.head-logo{
+    display:flex;
+}
+.head-logo img{
+    width: 100px; /* Increased size */
+        height: 50px; /* Increased size */
+        border-radius:30%;
+        margin-right: 20px;
+        
+}
+.team-logo img{
+    width: 100px; /* Increased size */
+        height: 100px; /* Increased size */
+        border-radius:30%;
+        margin-right: 20px;
+}
+
+
+table {
+        width: 100%;
+        border-collapse: collapse;
+        color: white;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 10px;
+    
+
+    }
+    th {
+        background-color:black;
+    }
+</style>
+</head>
+<body>
+ 
+<div class="scrollable-wrapper">
+    <div class="head-logo">
+        <img src="https://www.iplt20.com/assets/images/ipl-logo-new-old.png" alt="">
+        <div class="team-logo">
+            <img src="https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/ADAMetmKk61682948573LSG.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/CSK.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/GT.png?v=1" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/KKR.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/DC.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/MI.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/PBKS.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/RR.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/RCB.png" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/SRH.png" alt="">
+            
+        </div>
+        </div>
+    <h1>Mumbai Indians VS Rajasthan Royals</h1>
+    <div class="container">
+        <div class="scrollable-box batsmen-box">
+            <H1 for="Enter" style="color: white;">Batting Team</H1>
+            <!-- Left scrollable boxes content (batsmen) -->
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/174.png" alt="User Photo">
+                <p class="user-name">Suryakumar Yadav</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Suryakumar Yadav">
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/6.png" alt="User Photo">
+                <p class="user-name">Rohit Sharma</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Rohit Sharma">
+            </div>
+            <!-- Repeat for other batsmen -->
+
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/164.png" alt="User Photo">
+                
+                    <p class="user-name">Ishan Kishan </p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Ishan Kishan">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/636.png" alt="User Photo">
+                
+                    <p class="user-name">Tim David</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Tim David">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://images.news18.com/ibnlive/uploads/2023/11/hardik-pandya-mumbai-indians_ipl-2023-11-7109b92d5f7adb8c35ce8d5cf788416e.png?impolicy=website&width=640&height=480" alt="User Photo">
+                
+                    <p class="user-name">Hardik Pandya</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Hardik Pandya">
+                
+            </div>
+
+        </div>
+        
+        <div class="form-container">
+            <H1 for="Enter" style="color: white;">Current Scenario</H1>
+            
+            <form>
+                <!-- Form for recording batting stats -->
+                <input type="number" placeholder="Score" name="score">
+                <label for="over-range" style="color: white;">Over Range:</label>
+                <!-- <select name="over-range" id="over-range">
+                    <option value="0-6">0-6</option>
+                    <option value="7-15">7-15</option>
+                    <option value="16-20">16-20</option>
+                </select> -->
+                <hr>
+                <select name="over-range" id="over-range">
+                    <option value="0-6">0-6</option>
+                    <option value="7-15">7-15</option>
+                    <option value="16-20">16-20</option>
+                  </select>
+                  <hr>
+                <input type="number" placeholder="Wickets" name="wickets">
+                
+                <input type="number" placeholder="4s" name="fours">
+                
+                <input type="number" placeholder="6s" name="sixes">
+                
+                <input type="number" placeholder="Dot Balls" name="dot-balls">
+                
+            </form>
+            <!-- HTML !-->
+            <button class="button-64" role="button" onclick="generateAnalytics()">
+                <span class="text">Generate Analysis</span>
+            </button>
+            
+           
+           
+        </div>
+        <div class="scrollable-box bowlers-box">
+            <H1 for="Enter" style="color: white;">Bowling Team</H1>
+            <!-- Right scrollable boxes content (bowlers) -->
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/220.png" alt="User Photo">
+                <p class="user-name">Sandeep Sharma</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Sandeep Sharma">
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/45.png" alt="User Photo">
+                <p class="user-name">Ravichandran Ashwin</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Ravichandran Ashwin">
+            </div>
+            <!-- Repeat for other bowlers -->
+
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/10.png" alt="User Photo">
+                
+                    <p class="user-name">Yuzvendra Chahal</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Yuzvendra Chahal">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/66.png" alt="User Photo">
+                
+                    <p class="user-name">Trent Boult</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Trent Boult">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://www.rajasthanroyals.com/static-assets/images/players/65702.png?v=6.02" alt="User Photo">
+                
+                    <p class="user-name">Prasidh Krishna</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Prasidh Krishna">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div>
+ <H1 for="Enter" style="color: white;">Vs Stats_2023</H1>
+            <table id="analysis-table">
+                <thead>
+                    <tr>
+                        <th>Batsman</th>
+                        <th>Bowler</th>
+                        <th>Runs Scored</th>
+                        <th>Dot Count</th>
+                        <th>Four Count</th>
+                        <th>Six Count</th>
+                        <th>Out Count</th>
+                        <th>Balls Faced</th>
+                        <th>Running Runs</th>
+                        <th>Success Ratio Factor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+            <button id="generate-button" style='height:30px;margin-top: 20px;' class="button-64" role="button" onclick="populateTable()">
+                <span class="text">Generate Statistics</span>
+            </button>
+            </div>
+
+</div>
+<br>
+<div class="container">
+    <div>
+     <H1 for="Enter" style="color: white;">Vs Stats_2015-2021_dec</H1>
+            <table id="analysis-table-2">
+                <thead>
+                    <tr>
+                        <th>Batsman</th>
+                        <th>Bowler</th>
+                        <th>Score Sum</th>
+                        <th>Score Mean</th>
+                        <th>Out Sum</th>
+                        <th>Out Mean</th>
+                        <th>Four Sum</th>
+                        <th>Six Sum</th>
+                        <th>Dot Sum</th>
+                        <th>Four Mean</th>
+                        <th>Six Mean</th>
+                        <th>Dot Mean</th>
+                        <th>Success Ratio Factor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+             <button id="generate-button" style='height:30px;margin-top: 20px;' class="button-64" role="button" onclick="populateTable2()">
+                <span class="text">Generate Statistics</span>
+            </button> 
+    </div>
+          
+</div>
+</div>
+<!-- <script>
+    var batsmenVisibleCheckboxes = []; // Separate array for batsmen checkboxes
+    var bowlersVisibleCheckboxes = []; // Separate array for bowlers checkboxes
+
+    function toggleCheckbox(user) {
+        var checkbox = user.querySelector('.custom-checkbox');
+        var name = checkbox.getAttribute('data-name');
+        
+        if (user.closest('.batsmen-box')) { // If the clicked user is in batsmen box
+            var index = batsmenVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                batsmenVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                batsmenVisibleCheckboxes.splice(index, 1);
+            }
+        } else if (user.closest('.bowlers-box')) { // If the clicked user is in bowlers box
+            var index = bowlersVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                bowlersVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                bowlersVisibleCheckboxes.splice(index, 1);
+            }
+        }
+    }
+</script> -->
+
+<script>
+    var batsmenVisibleCheckboxes = []; // Separate array for batsmen checkboxes
+    var bowlersVisibleCheckboxes = []; // Separate array for bowlers checkboxes
+
+    function toggleCheckbox(user) {
+        var checkbox = user.querySelector('.custom-checkbox');
+        var name = checkbox.getAttribute('data-name');
+        
+        if (user.closest('.batsmen-box')) { // If the clicked user is in batsmen box
+            var index = batsmenVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                batsmenVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                batsmenVisibleCheckboxes.splice(index, 1);
+            }
+        } else if (user.closest('.bowlers-box')) { // If the clicked user is in bowlers box
+            var index = bowlersVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                bowlersVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                bowlersVisibleCheckboxes.splice(index, 1);
+            }
+        }
+    }
+
+    function generateAnalytics() {
+        var score = document.querySelector('input[name="score"]').value;
+        var overRange = document.querySelector('#over-range').value;
+        var wickets = document.querySelector('input[name="wickets"]').value;
+        var fours = document.querySelector('input[name="fours"]').value;
+        var sixes = document.querySelector('input[name="sixes"]').value;
+        var dotBalls = document.querySelector('input[name="dot-balls"]').value;
+
+        var formData = {
+            score: score,
+            overRange: overRange,
+            wickets: wickets,
+            fours: fours,
+            sixes: sixes,
+            dotBalls: dotBalls,
+            batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+        console.log(formData)
+
+        fetch('http://localhost:5000/generate-analytics', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Analysis generated:', data);
+            // Handle response as needed
+        })
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+    }
+
+
+
+
+
+//     const data = [
+//     {
+//   "_id": {
+//     "$oid": "65a01bcdd3b08849928a7b00"
+//   },
+//   "batter": "Suryakumar Yadav",
+//   "bowler": "Yuzvendra Chahal",
+//   "runs_scored": 8,
+//   "dot_count": 3,
+//   "four_count": 1,
+//   "six_count": 0,
+//   "out_count": 0,
+//   "balls_faced": 8,
+//   "running_runs": 4,
+//   "success_ratio_factor": 0.6356164383561644
+// }
+//         // Add more data objects here as needed
+//     ];
+
+    // Function to populate the table with data
+    function populateTable() {
+        var formData = {
+           
+            batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+
+//write your fetch api here
+fetch('http://localhost:3000/vs_stats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Analysis generated:', data);
+            const tableBody = document.querySelector('#analysis-table tbody');
+
+        // Clear existing table rows
+        tableBody.innerHTML = '';
+
+        data.forEach(entry => {
+            if(entry){
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.batter}</td>
+                <td>${entry.bowler}</td>
+                <td>${entry.runs_scored}</td>
+                <td>${entry.dot_count}</td>
+                <td>${entry.four_count}</td>
+                <td>${entry.six_count}</td>
+                <td>${entry.out_count}</td>
+                <td>${entry.balls_faced}</td>
+                <td>${entry.running_runs}</td>
+                <td>${entry.success_ratio_factor}</td>
+            `;
+            tableBody.appendChild(row);}
+        });
+            // Handle response as needed
+        })
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+
+
+    }
+
+
+        function populateTable2() {
+          
+        var formData = {
+           
+            batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+        fetch('http://localhost:3000/vs_stats_2021', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Analysis generated:', data);
+            
+            const tableBody = document.querySelector('#analysis-table-2 tbody');
+
+        // Clear existing table rows
+        tableBody.innerHTML = '';
+
+        data.forEach(entry => {
+            if(entry){
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.batsman}</td>
+                <td>${entry.bowl}</td>
+                <td>${entry.score_sum}</td>
+                <td>${entry.score_mean}</td>
+                <td>${entry.out_sum}</td>
+                <td>${entry.out_mean}</td>
+                <td>${entry.four_sum}</td>
+                <td>${entry.six_sum}</td>
+                <td>${entry.dot_sum}</td>
+                <td>${entry.four_mean}</td>
+                <td>${entry.six_mean}</td>
+                <td>${entry.dot_mean}</td>
+                <td>${entry.success_ratio_factor}</td>
+            `;
+            tableBody.appendChild(row);}
+        });
+        })
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+        
+    
+
+        // const tableBody = document.querySelector('#analysis-table tbody');
+
+        // // Clear existing table rows
+        // tableBody.innerHTML = '';
+
+        // data.forEach(entry => {
+        //     const row = document.createElement('tr');
+        //     row.innerHTML = `
+        //         <td>${entry.batter}</td>
+        //         <td>${entry.bowler}</td>
+        //         <td>${entry.runs_scored}</td>
+        //         <td>${entry.dot_count}</td>
+        //         <td>${entry.four_count}</td>
+        //         <td>${entry.six_count}</td>
+        //         <td>${entry.out_count}</td>
+        //         <td>${entry.balls_faced}</td>
+        //         <td>${entry.running_runs}</td>
+        //         <td>${entry.success_ratio_factor}</td>
+        //     `;
+        //     tableBody.appendChild(row);
+        // });
+    }
+</script>
+
+
+</body>
+</html>

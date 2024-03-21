@@ -1,0 +1,2863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT</title>
+<style>
+    body {
+        margin:0;
+        padding: 3%;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #17025e, #f5059d);
+
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .scrollable-wrapper {
+        height: 80vh; /* Fixed height for scrollable area */
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        max-width: 1400px;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 20px; /* Increased border radius */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .scrollable-box {
+        overflow-y: auto;
+        height: 400px; /* Increased height */
+        width: 400px; /* Increased width */
+        background-color: transparent; /* Changed background color to transparent */
+        padding: 20px;
+        border-radius: 20px; /* Increased border radius */
+        margin: 0 10px; /* Added margin here */
+        color: black; /* Changed text color to black */
+    }
+
+    .form-container {
+        flex-grow: 1;
+        padding: 20px;
+        margin: 0 10px; /* Added margin here */
+        max-width: 40%;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+    }
+
+    .user {
+        
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: white;
+        border-radius: 20px; /* Increased border radius */
+        padding: 10px; /* Added padding */
+        cursor: pointer;
+    }
+
+    .user img {
+        width: 70px; /* Increased size */
+        height: 70px; /* Increased size */
+        border-radius: 50%; /* To make the photo circular */
+        margin-right: 20px;
+    }
+
+    .user-name {
+        font-weight: bold;
+    }
+.info{
+  display: flex;
+}
+    /* Custom checkbox style */
+    .custom-checkbox {
+        display: none; /* Initially hide checkboxes */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        border: 2px solid #333;
+        transition: background-color 0.3s, border-color 0.3s;
+        background-color: #00FF00; /* Default green color */
+    }
+
+    /* Checked state */
+    .custom-checkbox:checked {
+        background-color: #00FF00; /* Green background */
+        border-color: #00FF00; /* Green border */
+    }
+
+    /* Hover effect */
+    .custom-checkbox:hover {
+        background-color: rgba(0, 255, 0, 0.3);
+    }
+
+    h1 {
+        color: white;
+    }
+    .button-64 {
+  align-items: center;
+  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button-64:active,
+.button-64:hover {
+  outline: 0;
+}
+
+.button-64 span {
+  /* background-color: rgb(5, 6, 45); */
+  /* background-color:#17025e; */
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+.button-64:hover span {
+  background: none;
+}
+
+@media (min-width: 768px) {
+  .button-64 {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}
+
+:root {
+  --arrow-bg: rgba(255, 255, 255, 0.3);
+  --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
+  --option-bg: white;
+  --select-bg: rgba(255, 255, 255, 0.2);
+}
+
+
+/* <select> styles */
+select {
+  /* Reset */
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  width: 20rem;
+  padding: 1rem 4rem 1rem 1rem;
+  background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+  color: black;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+  /* <option> colors */
+  option {
+    color: inherit;
+    background-color: var(--option-bg);
+  }
+}
+.head-logo{
+    display:flex;
+}
+.head-logo img{
+    width: 100px; /* Increased size */
+        height: 50px; /* Increased size */
+        border-radius:30%;
+        margin-right: 20px;
+        
+}
+.team-logo img{
+    width: 100px; /* Increased size */
+        height: 100px; /* Increased size */
+        border-radius:30%;
+        margin-right: 20px;
+}
+
+
+table {
+        width: 100%;
+        border-collapse: collapse;
+        color: white;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 10px;
+    
+
+    }
+    th {
+        background-color:black;
+    }
+    .data {
+  border:1px solid black;
+  color: black;
+}
+  
+    
+</style>
+</head>
+<body>
+ 
+<div class="scrollable-wrapper">
+    <div class="head-logo">
+        <img src="https://www.iplt20.com/assets/images/ipl-logo-new-old.png" alt="">
+        <div class="team-logo">
+            <img src="https://feeds-100mb.s3-ap-southeast-1.amazonaws.com/teamLogos/ADAMetmKk61682948573LSG.png" onclick="populateBox('LSG')" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/CSK.png" onclick="populateBox('CSK')" alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/GT.png?v=1" onclick="populateBox('GT')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/KKR.png" onclick="populateBox('KKR')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/DC.png" onclick="populateBox('DC')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/MI.png" onclick="populateBox('MI')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/PBKS.png" onclick="populateBox('PBKS')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/RR.png" onclick="populateBox('RR')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/RCB.png" onclick="populateBox('RCB')"alt="">
+            <img src="https://scores.iplt20.com/ipl/teamlogos/SRH.png" onclick="populateBox('SRH')"alt="">
+            
+        </div>
+        </div>
+    <h1>Mumbai Indians VS Rajasthan Royals</h1>
+    <div class="container">
+        <div class="scrollable-box batsmen-box">
+            <H1 for="Enter" style="color: white;">Batting Team</H1>
+            <!-- Left scrollable boxes content (batsmen) -->
+            <!-- <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/174.png" alt="User Photo">
+                <p class="user-name">Suryakumar Yadav</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Suryakumar Yadav">
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/6.png" alt="User Photo">
+                <p class="user-name">Rohit Sharma</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Rohit Sharma">
+            </div>
+           
+
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/164.png" alt="User Photo">
+                
+                    <p class="user-name">Ishan Kishan </p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Ishan Kishan">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/636.png" alt="User Photo">
+                
+                    <p class="user-name">Tim David</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Tim David">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://images.news18.com/ibnlive/uploads/2023/11/hardik-pandya-mumbai-indians_ipl-2023-11-7109b92d5f7adb8c35ce8d5cf788416e.png?impolicy=website&width=640&height=480" alt="User Photo">
+                
+                    <p class="user-name">Hardik Pandya</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Hardik Pandya">
+                
+            </div> -->
+
+        </div>
+        
+        <div class="form-container">
+            <H1 for="Enter" style="color: white;">Current Scenario</H1>
+            
+            <form>
+                <!-- Form for recording batting stats -->
+                <input type="number" placeholder="Score" name="score">
+                <label for="over-range" style="color: white;">Over Range:</label>
+                <!-- <select name="over-range" id="over-range">
+                    <option value="0-6">0-6</option>
+                    <option value="7-15">7-15</option>
+                    <option value="16-20">16-20</option>
+                </select> -->
+                <hr>
+                <select name="over-range" id="over-range">
+                    <option value="0-6">0-6</option>
+                    <option value="7-15">7-15</option>
+                    <option value="16-20">16-20</option>
+                  </select>
+                  <hr>
+                <input type="number" placeholder="Wickets" name="wickets">
+                
+                <input type="number" placeholder="4s" name="fours">
+                
+                <input type="number" placeholder="6s" name="sixes">
+                
+                <input type="number" placeholder="Dot Balls" name="dot-balls">
+                
+            </form>
+            <!-- HTML !-->
+            <button class="button-64" role="button" onclick="generateAnalytics()">
+                <span class="text">Generate Analysis</span>
+            </button>
+            <button class="button-64" role="button" onclick="rank()">
+              <span class="text">View</span>
+          </button>
+            
+           
+           
+        </div>
+        <div class="scrollable-box bowlers-box">
+            <H1 for="Enter" style="color: white;">Bowling Team</H1>
+            <!-- Right scrollable boxes content (bowlers) -->
+            <!-- <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/220.png" alt="User Photo">
+                <p class="user-name">Sandeep Sharma</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Sandeep Sharma">
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/45.png" alt="User Photo">
+                <p class="user-name">Ravichandran Ashwin</p>
+                <input class="custom-checkbox" type="checkbox" data-name="Ravichandran Ashwin">
+            </div>
+     
+
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/10.png" alt="User Photo">
+                
+                    <p class="user-name">Yuzvendra Chahal</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Yuzvendra Chahal">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/66.png" alt="User Photo">
+                
+                    <p class="user-name">Trent Boult</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Trent Boult">
+                
+            </div>
+            <div class="user" onclick="toggleCheckbox(this)">
+                <img src="https://www.rajasthanroyals.com/static-assets/images/players/65702.png?v=6.02" alt="User Photo">
+                
+                    <p class="user-name">Prasidh Krishna</p>
+                    <input class="custom-checkbox" type="checkbox" data-name="Prasidh Krishna">
+                
+            </div> -->
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div>
+ <H1 for="Enter" style="color: white;">Vs Stats_2023</H1>
+            <table id="analysis-table">
+                <thead>
+                    <tr>
+                        <th>Batsman</th>
+                        <th>Bowler</th>
+                        <th>Runs Scored</th>
+                        <th>Dot Count</th>
+                        <th>Four Count</th>
+                        <th>Six Count</th>
+                        <th>Out Count</th>
+                        <th>Balls Faced</th>
+                        <th>Running Runs</th>
+                        <th>Success Ratio Factor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+            <button id="generate-button" style='height:30px;margin-top: 20px;' class="button-64" role="button" onclick="populateTable()">
+                <span class="text">Generate Statistics</span>
+            </button>
+            </div>
+
+</div>
+<br>
+<div class="container">
+    <div>
+     <H1 for="Enter" style="color: white;">Vs Stats_2015-2021_dec</H1>
+            <table id="analysis-table-2">
+                <thead>
+                    <tr>
+                        <th>Batsman</th>
+                        <th>Bowler</th>
+                        <th>Score Sum</th>
+                        <th>Score Mean</th>
+                        <th>Out Sum</th>
+                        <th>Out Mean</th>
+                        <th>Four Sum</th>
+                        <th>Six Sum</th>
+                        <th>Dot Sum</th>
+                        <th>Four Mean</th>
+                        <th>Six Mean</th>
+                        <th>Dot Mean</th>
+                        <th>Success Ratio Factor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+             <button id="generate-button" style='height:30px;margin-top: 20px;' class="button-64" role="button" onclick="populateTable2()">
+                <span class="text">Generate Statistics</span>
+            </button> 
+    </div>
+          
+</div>
+</div>
+<!-- <script>
+    var batsmenVisibleCheckboxes = []; // Separate array for batsmen checkboxes
+    var bowlersVisibleCheckboxes = []; // Separate array for bowlers checkboxes
+
+    function toggleCheckbox(user) {
+        var checkbox = user.querySelector('.custom-checkbox');
+        var name = checkbox.getAttribute('data-name');
+        
+        if (user.closest('.batsmen-box')) { // If the clicked user is in batsmen box
+            var index = batsmenVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                batsmenVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                batsmenVisibleCheckboxes.splice(index, 1);
+            }
+        } else if (user.closest('.bowlers-box')) { // If the clicked user is in bowlers box
+            var index = bowlersVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                bowlersVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                bowlersVisibleCheckboxes.splice(index, 1);
+            }
+        }
+    }
+</script> -->
+
+<script>
+    var batsmenVisibleCheckboxes = []; // Separate array for batsmen checkboxes
+    var bowlersVisibleCheckboxes = []; // Separate array for bowlers checkboxes
+
+    function toggleCheckbox(user) {
+        var checkbox = user.querySelector('.custom-checkbox');
+        var name = checkbox.getAttribute('data-name');
+        
+        if (user.closest('.batsmen-box')) { // If the clicked user is in batsmen box
+            var index = batsmenVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                batsmenVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                batsmenVisibleCheckboxes.splice(index, 1);
+            }
+        } else if (user.closest('.bowlers-box')) { // If the clicked user is in bowlers box
+            var index = bowlersVisibleCheckboxes.indexOf(name);
+            if (index === -1) {
+                // Name not found in array, show checkbox
+                checkbox.style.display = 'block';
+                bowlersVisibleCheckboxes.push(name);
+            } else {
+                // Name found in array, hide checkbox
+                checkbox.style.display = 'none';
+                bowlersVisibleCheckboxes.splice(index, 1);
+            }
+        }
+    }
+    
+
+    function generateAnalytics() {
+   
+        var score = document.querySelector('input[name="score"]').value;
+       var rang= document.querySelector('#over-range').value
+        var wickets = document.querySelector('input[name="wickets"]').value;
+        var fours = document.querySelector('input[name="fours"]').value;
+        var sixes = document.querySelector('input[name="sixes"]').value;
+        var dotBalls = document.querySelector('input[name="dot-balls"]').value;
+   var parm;
+        if(rang=='0-6'){
+         parm=1
+          var formData = {
+            runs: score,
+            run_rate:score/6,
+            wickets: wickets,
+            '6s': sixes,
+            '4s': fours,
+            
+            dot_count: dotBalls,
+            balls_played:36,
+            // batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            // bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+        }
+        if(rang=='7-15'){
+          parm=2
+          var formData = {
+            runs: score,
+            run_rate:score/9,
+            wickets: wickets,
+            '6s': sixes,
+            '4s': fours,
+            
+            dot_count: dotBalls,
+            balls_played:54,
+            // batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            // bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+        }
+        if(rang=='16-20'){
+          parm=3
+          var formData = {
+            runs: score,
+            run_rate:score/5,
+            wickets: wickets,
+            '6s': sixes,
+            '4s': fours,
+            
+            dot_count: dotBalls,
+            balls_played:30,
+            // batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            // bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+        }
+        console.log(formData)
+        
+        populateTable()
+          populateTable2()
+          srf(parm)
+             
+        
+if(parm<3){
+        fetch(`http://127.0.0.1:5000/predict/${parm}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+         final_stats.push(data)
+            console.log('Analysis generated:', data,final_stats);
+            // Handle response as needed
+          
+
+
+            
+           
+})
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });}
+       
+      
+    }
+    
+
+
+
+
+//     const data = [
+//     {
+//   "_id": {
+//     "$oid": "65a01bcdd3b08849928a7b00"
+//   },
+//   "batter": "Suryakumar Yadav",
+//   "bowler": "Yuzvendra Chahal",
+//   "runs_scored": 8,
+//   "dot_count": 3,
+//   "four_count": 1,
+//   "six_count": 0,
+//   "out_count": 0,
+//   "balls_faced": 8,
+//   "running_runs": 4,
+//   "success_ratio_factor": 0.6356164383561644
+// }
+//         // Add more data objects here as needed
+//     ];
+
+    // Function to populate the table with data
+    function populateTable() {
+        var formData = {
+           
+            batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+
+//write your fetch api here
+fetch('http://localhost:3000/vs_stats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Analysis generated:', data);
+            const tableBody = document.querySelector('#analysis-table tbody');
+
+        // Clear existing table rows
+        tableBody.innerHTML = '';
+
+        data.forEach(entry => {
+            if(entry){
+              final_stats[0].push({batter:entry.batter,bowler:entry.bowler,srf_2023:entry.success_ratio_factor})
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.batter}</td>
+                <td>${entry.bowler}</td>
+                <td>${entry.runs_scored}</td>
+                <td>${entry.dot_count}</td>
+                <td>${entry.four_count}</td>
+                <td>${entry.six_count}</td>
+                <td>${entry.out_count}</td>
+                <td>${entry.balls_faced}</td>
+                <td>${entry.running_runs}</td>
+                <td>${entry.success_ratio_factor}</td>
+            `;
+            tableBody.appendChild(row);}
+        });
+            // Handle response as needed
+        })
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+
+
+    }
+
+
+        function populateTable2() {
+          
+        var formData = {
+           
+            batsmenVisibleCheckboxes: batsmenVisibleCheckboxes,
+            bowlersVisibleCheckboxes: bowlersVisibleCheckboxes
+        };
+        fetch('http://localhost:3000/vs_stats_2021', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Analysis generated:', data);
+            
+            const tableBody = document.querySelector('#analysis-table-2 tbody');
+
+        // Clear existing table rows
+        tableBody.innerHTML = '';
+
+        data.forEach(entry => {
+            if(entry){
+              final_stats[1].push({batsman:entry.batsman,bowler:entry.bowl,srf_2021:entry.success_ratio_factor})
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.batsman}</td>
+                <td>${entry.bowl}</td>
+                <td>${entry.score_sum}</td>
+                <td>${entry.score_mean}</td>
+                <td>${entry.out_sum}</td>
+                <td>${entry.out_mean}</td>
+                <td>${entry.four_sum}</td>
+                <td>${entry.six_sum}</td>
+                <td>${entry.dot_sum}</td>
+                <td>${entry.four_mean}</td>
+                <td>${entry.six_mean}</td>
+                <td>${entry.dot_mean}</td>
+                <td>${entry.success_ratio_factor}</td>
+            `;
+            tableBody.appendChild(row);}
+        });
+        })
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+        
+    
+
+        // const tableBody = document.querySelector('#analysis-table tbody');
+
+        // // Clear existing table rows
+        // tableBody.innerHTML = '';
+
+        // data.forEach(entry => {
+        //     const row = document.createElement('tr');
+        //     row.innerHTML = `
+        //         <td>${entry.batter}</td>
+        //         <td>${entry.bowler}</td>
+        //         <td>${entry.runs_scored}</td>
+        //         <td>${entry.dot_count}</td>
+        //         <td>${entry.four_count}</td>
+        //         <td>${entry.six_count}</td>
+        //         <td>${entry.out_count}</td>
+        //         <td>${entry.balls_faced}</td>
+        //         <td>${entry.running_runs}</td>
+        //         <td>${entry.success_ratio_factor}</td>
+        //     `;
+        //     tableBody.appendChild(row);
+        // });
+    }
+function srf(cat){
+var formData={
+  batsmenVisibleCheckboxes:batsmenVisibleCheckboxes
+}
+  
+  fetch(`http://localhost:5000//get_srf/${cat}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json(formData))
+        .then(data => {
+          final_stats[2]=data.SRF_15_21;
+          final_stats[3]=data.SRF_2023;
+
+            console.log('Analysis generated:', data); })
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+}
+
+var final_stats=[[],[],[],[]]
+
+
+    // JSON object containing player information
+const playerData =[{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820798"
+  },
+  "Player": "Vaibhav Arora",
+  "srf_2021_final": 36.61780900275045,
+  "srf_2023": 100,
+  "Team_end": "KKR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820799"
+  },
+  "Player": "Shubman Gill",
+  "srf_2021_final": 68.3230339689465,
+  "srf_2023": 91.62158445704858,
+  "Team_end": "GT",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82079a"
+  },
+  "Player": "Heinrich Klaasen",
+  "srf_2021_final": 65.67217826966288,
+  "srf_2023": 85.21600396826726,
+  "Team_end": "SRH",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82079b"
+  },
+  "Player": "Suryakumar Yadav",
+  "link":'https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/174.png',
+  "srf_2021_final": 77.69893827726779,
+  "srf_2023": 83.8998349030816,
+  "Team_end": "MI",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82079c"
+  },
+  "Player": "Rashid Khan",
+  "srf_2021_final": 55.98137729721828,
+  "srf_2023": 78.91508696762882,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82079d"
+  },
+  "Player": "Cameron Green",
+  "srf_2021_final": 61.31953423204764,
+  "srf_2023": 77.13302601725502,
+  "Team_end": "RCB",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82079e"
+  },
+  "Player": "Vijay Shankar",
+  "srf_2021_final": 61.98236563484526,
+  "srf_2023": 76.47655288209153,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82079f"
+  },
+  "Player": "Ajinkya Rahane",
+  "srf_2021_final": 63.728222572420364,
+  "srf_2023": 75.03484355630297,
+  "Team_end": "CSK",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a0"
+  },
+  "Player": "Glenn Maxwell",
+  "srf_2021_final": 77.20213876185036,
+  "srf_2023": 74.83533911435765,
+  "Team_end": "RCB",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a1"
+  },
+  "Player": "Yashasvi Jaiswal",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/533.png",
+  "srf_2021_final": 58.22103441814409,
+  "srf_2023": 74.31821652124907,
+  "Team_end": "RR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a2"
+  },
+  "Player": "Umran Malik",
+  "srf_2021_final": 35.50595611725772,
+  "srf_2023": 71.37254901960785,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a3"
+  },
+  "Player": "Rinku Singh",
+  "srf_2021_final": 58.17446598116865,
+  "srf_2023": 70.9869886288381,
+  "Team_end": "KKR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a4"
+  },
+  "Player": "Virat Kohli",
+  "srf_2021_final": 83.23457056278156,
+  "srf_2023": 70.84455313553532,
+  "Team_end": "RCB",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a5"
+  },
+  "Player": "Liam Livingstone",
+  "srf_2021_final": 70.84944969745123,
+  "srf_2023": 69.63629615557956,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a6"
+  },
+  "Player": "Shivam Dube",
+  "srf_2021_final": 64.32704578382203,
+  "srf_2023": 69.49895386223398,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a7"
+  },
+  "Player": "Devon Conway",
+  "srf_2021_final": 71.61267970463618,
+  "srf_2023": 68.20950546191014,
+  "Team_end": "CSK",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a8"
+  },
+  "Player": "David Miller",
+  "srf_2021_final": 73.99803465444373,
+  "srf_2023": 67.83967103422847,
+  "Team_end": "GT",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207a9"
+  },
+  "Player": "Nicholas Pooran",
+  "srf_2021_final": 71.61582402391794,
+  "srf_2023": 67.60074553020404,
+  "Team_end": "LSG",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207aa"
+  },
+  "Player": "Ruturaj Gaikwad",
+  "srf_2021_final": 69.00943315615639,
+  "srf_2023": 66.92150067740936,
+  "Team_end": "CSK",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ab"
+  },
+  "Player": "Rishi Dhawan",
+  "srf_2021_final": 57.33071798289738,
+  "srf_2023": 66.76131687242797,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ac"
+  },
+  "Player": "Ishant Sharma",
+  "srf_2021_final": 32.818690635885496,
+  "srf_2023": 66.66666666666666,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ad"
+  },
+  "Player": "Mohit Sharma",
+  "srf_2021_final": 52.564362211952144,
+  "srf_2023": 66.66666666666666,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ae"
+  },
+  "Player": "Mustafizur Rahman",
+  "srf_2021_final": 35.204167245915315,
+  "srf_2023": 66.66666666666666,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207af"
+  },
+  "Player": "Abdul Basith",
+  "srf_2021_final": 58.76847909063346,
+  "srf_2023": 66.66666666666666,
+  "Team_end": "RR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b0"
+  },
+  "Player": "Tushar Deshpande",
+  "srf_2021_final": 49.062868642109045,
+  "srf_2023": 66.66666666666666,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b1"
+  },
+  "Player": "Avesh Khan",
+  "srf_2021_final": 35.97451108662249,
+  "srf_2023": 66.66666666666666,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b2"
+  },
+  "Player": "Tim David",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/636.png",
+  "srf_2021_final": 75.50186230171147,
+  "srf_2023": 65.78608141365152,
+  "Team_end": "MI",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b3"
+  },
+  "Player": "Marcus Stoinis",
+  "srf_2021_final": 71.03946432796326,
+  "srf_2023": 65.6550698855993,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b4"
+  },
+  "Player": "Nitish Rana",
+  "srf_2021_final": 66.91094536369351,
+  "srf_2023": 65.05730316108301,
+  "Team_end": "KKR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b5"
+  },
+  "Player": "Hardik Pandya",
+  "srf_2021_final": 79.33748705333016,
+  "srf_2023": 64.9946657006786,
+  "Team_end": "MI",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b6"
+  },
+  "Player": "Rahul Tewatia",
+  "srf_2021_final": 63.37258378613102,
+  "srf_2023": 64.66445412173326,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b7"
+  },
+  "Player": "Akash Deep",
+  "srf_2021_final": 8.107884389943171,
+  "srf_2023": 64.5340802987862,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b8"
+  },
+  "Player": "Kyle Mayers",
+  "srf_2021_final": 53.6753870595634,
+  "srf_2023": 62.51661263331852,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207b9"
+  },
+  "Player": "Jitesh Sharma",
+  "srf_2021_final": 63.731953204340876,
+  "srf_2023": 62.21640007621699,
+  "Team_end": "PBKS",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ba"
+  },
+  "Player": "Shikhar Dhawan",
+  "srf_2021_final": 68.55202328240968,
+  "srf_2023": 62.171330380877656,
+  "Team_end": "PBKS",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207bb"
+  },
+  "Player": "Jason Roy",
+  "srf_2021_final": 74.29519098264402,
+  "srf_2023": 61.95291996541392,
+  "Team_end": "KKR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207bc"
+  },
+  "Player": "Atharva Taide",
+  "srf_2021_final": 55.536659563904244,
+  "srf_2023": 61.94567209186004,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207bd"
+  },
+  "Player": "Venkatesh Iyer",
+  "srf_2021_final": 67.15468855105257,
+  "srf_2023": 61.565869216895365,
+  "Team_end": "KKR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207be"
+  },
+  "Player": "Ayush Badoni",
+  "srf_2021_final": 51.83898265910963,
+  "srf_2023": 60.12655784848663,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207bf"
+  },
+  "Player": "Ravindra Jadeja",
+  "srf_2021_final": 68.28759355686687,
+  "srf_2023": 60.0616558457168,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c0"
+  },
+  "Player": "Ishan Kishan",
+  "link":'https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/164.png',
+  "srf_2021_final": 63.84357715603938,
+  "srf_2023": 59.78700785394609,
+  "Team_end": "MI",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c1"
+  },
+  "Player": "Axar Patel",
+  "srf_2021_final": 63.53530618291528,
+  "srf_2023": 59.74731681568053,
+  "Team_end": "DC",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c2"
+  },
+  "Player": "Anuj Rawat",
+  "srf_2021_final": 45.190583811362835,
+  "srf_2023": 59.207296577124154,
+  "Team_end": "RCB",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c3"
+  },
+  "Player": "Krishnappa Gowtham",
+  "srf_2021_final": 65.73296037983845,
+  "srf_2023": 59.02910719893902,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c4"
+  },
+  "Player": "Shimron Hetmyer",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/210.png",
+  "srf_2021_final": 64.1825825309261,
+  "srf_2023": 58.83587233575104,
+  "Team_end": "RR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c5"
+  },
+  "Player": "Jos Buttler",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/182.png",
+  "srf_2021_final": 77.52757163453589,
+  "srf_2023": 58.572124813421766,
+  "Team_end": "RR",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c6"
+  },
+  "Player": "Abdul Samad",
+  "srf_2021_final": 62.07285698025948,
+  "srf_2023": 58.50589740161863,
+  "Team_end": "SRH",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c7"
+  },
+  "Player": "Mayank Markande",
+  "srf_2021_final": 34.83001277227593,
+  "srf_2023": 58.437710437710436,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c8"
+  },
+  "Player": "Sam Curran",
+  "srf_2021_final": 64.21902252386973,
+  "srf_2023": 58.25983025090126,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207c9"
+  },
+  "Player": "David Warner",
+  "srf_2021_final": 84.46799274877134,
+  "srf_2023": 58.012450637710955,
+  "Team_end": "DC",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ca"
+  },
+  "Player": "Abhinav Manohar",
+  "srf_2021_final": 66.76450573548608,
+  "srf_2023": 57.784553023546216,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207cb"
+  },
+  "Player": "Shardul Thakur",
+  "srf_2021_final": 56.423380776867525,
+  "srf_2023": 57.52133649521921,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207cc"
+  },
+  "Player": "Moeen Ali",
+  "srf_2021_final": 73.4415533194113,
+  "srf_2023": 57.205996204970354,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207cd"
+  },
+  "Player": "Abhishek Sharma",
+  "srf_2021_final": 59.0044805645528,
+  "srf_2023": 57.15148163308827,
+  "Team_end": "SRH",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ce"
+  },
+  "Player": "Prerak Mankad",
+  "srf_2021_final": 77.68885696377352,
+  "srf_2023": 56.976013852619154,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207cf"
+  },
+  "Player": "Sanju Samson",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/190.png",
+  "srf_2021_final": 74.56219111678314,
+  "srf_2023": 56.047698864337605,
+  "Team_end": "RR",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d0"
+  },
+  "Player": "Sikandar Raza",
+  "srf_2021_final": 60.049707818060284,
+  "srf_2023": 55.96250347067934,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d1"
+  },
+  "Player": "Prabhsimran Singh",
+  "srf_2021_final": 58.40796807568536,
+  "srf_2023": 55.13545723210155,
+  "Team_end": "PBKS",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d2"
+  },
+  "Player": "Marco Jansen",
+  "srf_2021_final": 43.98809612721911,
+  "srf_2023": 55.11646102432842,
+  "Team_end": "SRH",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d3"
+  },
+  "Player": "Devdutt Padikkal",
+  "srf_2021_final": 65.09213395607418,
+  "srf_2023": 55.04932641922423,
+  "Team_end": "LSG",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d4"
+  },
+  "Player": "Trent Boult",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/66.png",
+  "srf_2021_final": 49.46146936732378,
+  "srf_2023": 54.74466891988159,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d5"
+  },
+  "Player": "Rahmanullah Gurbaz",
+  "srf_2021_final": 71.39958279135806,
+  "srf_2023": 54.21590015115153,
+  "Team_end": "KKR",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d6"
+  },
+  "Player": "Shahbaz Ahmed",
+  "srf_2021_final": 54.28480315236588,
+  "srf_2023": 54.01790230318475,
+  "Team_end": "SRH",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d7"
+  },
+  "Player": "Umesh Yadav",
+  "srf_2021_final": 49.15298065945041,
+  "srf_2023": 53.13977873977874,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d8"
+  },
+  "Player": "Aiden Markram",
+  "srf_2021_final": 69.4043500318057,
+  "srf_2023": 52.86831950556182,
+  "Team_end": "SRH",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207d9"
+  },
+  "Player": "Rilee Rossouw",
+  "srf_2021_final": 82.3821784545711,
+  "srf_2023": 52.60936726160826,
+  "Team_end": "PBKS",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207da"
+  },
+  "Player": "Rohit Sharma",
+  'link':"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/6.png",
+  "srf_2021_final": 73.05805273631594,
+  "srf_2023": 52.266922761594806,
+  "Team_end": "MI",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207db"
+  },
+  "Player": "Mahipal Lomror",
+  "srf_2021_final": 65.8853278980326,
+  "srf_2023": 51.91056693876946,
+  "Team_end": "RCB",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207dc"
+  },
+  "Player": "Mitchell Santner",
+  "srf_2021_final": 60.20506093252686,
+  "srf_2023": 51.178451178451176,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207dd"
+  },
+  "Player": "Mayank Agarwal",
+  "srf_2021_final": 71.84907969590735,
+  "srf_2023": 50.86090126594473,
+  "Team_end": "SRH",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207de"
+  },
+  "Player": "Wriddhiman Saha",
+  "srf_2021_final": 59.108631476690654,
+  "srf_2023": 50.49247368415105,
+  "Team_end": "GT",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207df"
+  },
+  "Player": "Ravichandran Ashwin",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/45.png",
+  "srf_2021_final": 53.39889369470225,
+  "srf_2023": 50.36972590655754,
+  "Team_end": "RR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e0"
+  },
+  "Player": "Karn Sharma",
+  "srf_2021_final": 54.377299688331895,
+  "srf_2023": 50,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e1"
+  },
+  "Player": "Prithvi Shaw",
+  "srf_2021_final": 74.94818655169063,
+  "srf_2023": 49.92403977185858,
+  "Team_end": "DC",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e2"
+  },
+  "Player": "Piyush Chawla",
+  "srf_2021_final": 45.227421892397714,
+  "srf_2023": 49.31292959036817,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e3"
+  },
+  "Player": "Rahul Tripathi",
+  "srf_2021_final": 66.1130615183885,
+  "srf_2023": 48.993664995342506,
+  "Team_end": "SRH",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e4"
+  },
+  "Player": "Vishnu Vinod",
+  "srf_2021_final": 63.072922708655,
+  "srf_2023": 48.94656131890559,
+  "Team_end": "MI",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e5"
+  },
+  "Player": "Arjun Tendulkar",
+  "srf_2021_final": 32.36444715439262,
+  "srf_2023": 48.62385321100917,
+  "Team_end": "MI",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e6"
+  },
+  "Player": "Harry Brook",
+  "srf_2021_final": 80.19175645162535,
+  "srf_2023": 48.19242963514378,
+  "Team_end": "DC",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e7"
+  },
+  "Player": "Anrich Nortje",
+  "srf_2021_final": 37.94198286246209,
+  "srf_2023": 47.29186073239747,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e8"
+  },
+  "Player": "Mitchell Marsh",
+  "srf_2021_final": 64.48351512852271,
+  "srf_2023": 47.272164221479194,
+  "Team_end": "DC",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207e9"
+  },
+  "Player": "David Willey",
+  "srf_2021_final": 69.09630593643654,
+  "srf_2023": 47.23365988168167,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ea"
+  },
+  "Player": "Andre Russell",
+  "srf_2021_final": 75.60435522343181,
+  "srf_2023": 47.22162609257289,
+  "Team_end": "KKR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207eb"
+  },
+  "Player": "Mark Wood",
+  "srf_2021_final": 57.59466970694055,
+  "srf_2023": 47.09113607990014,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ec"
+  },
+  "Player": "Anukul Roy",
+  "srf_2021_final": 63.28714305438987,
+  "srf_2023": 47.02116402116401,
+  "Team_end": "KKR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ed"
+  },
+  "Player": "Anmolpreet Singh",
+  "srf_2021_final": 58.39370520119124,
+  "srf_2023": 46.538786914140886,
+  "Team_end": "SRH",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ee"
+  },
+  "Player": "Jaydev Unadkat",
+  "srf_2021_final": 51.89917519775196,
+  "srf_2023": 45.87064676616916,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ef"
+  },
+  "Player": "Jason Holder",
+  "srf_2021_final": 53.303587081545075,
+  "srf_2023": 45.349230509047864,
+  "Team_end": "RR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f0"
+  },
+  "Player": "Washington Sundar",
+  "srf_2021_final": 51.92287060952796,
+  "srf_2023": 44.937351170856395,
+  "Team_end": "SRH",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f1"
+  },
+  "Player": "Dinesh Karthik",
+  "srf_2021_final": 74.31835917592159,
+  "srf_2023": 44.45746072483014,
+  "Team_end": "RCB",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f2"
+  },
+  "Player": "Manish Pandey",
+  "srf_2021_final": 69.18166983555028,
+  "srf_2023": 44.097442738178636,
+  "Team_end": "KKR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f3"
+  },
+  "Player": "Mukesh Kumar",
+  "srf_2021_final": 51.75633101731925,
+  "srf_2023": 43.881856540084385,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f4"
+  },
+  "Player": "Krunal Pandya",
+  "srf_2021_final": 61.525428748177866,
+  "srf_2023": 42.72333483539801,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f5"
+  },
+  "Player": "Jason Behrendorff",
+  "srf_2021_final": 52.451789548308206,
+  "srf_2023": 41.88034188034188,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f6"
+  },
+  "Player": "Riyan Parag",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/189.png",
+  "srf_2021_final": 59.81915607107658,
+  "srf_2023": 41.67499401646075,
+  "Team_end": "RR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f7"
+  },
+  "Player": "Lalit Yadav",
+  "srf_2021_final": 65.10679000034112,
+  "srf_2023": 41.51870189006341,
+  "Team_end": "DC",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f8"
+  },
+  "Player": "Bhuvneshwar Kumar",
+  "srf_2021_final": 42.443541015595535,
+  "srf_2023": 40.7287982596895,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207f9"
+  },
+  "Player": "Arshdeep Singh",
+  "srf_2021_final": 58.18158730759955,
+  "srf_2023": 40.4040404040404,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207fa"
+  },
+  "Player": "Alzarri Joseph",
+  "srf_2021_final": 46.83126154982453,
+  "srf_2023": 40.32520325203252,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207fb"
+  },
+  "Player": "Ravi Bishnoi",
+  "srf_2021_final": 29.026233955799068,
+  "srf_2023": 39.20289295786084,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207fc"
+  },
+  "Player": "Swapnil Singh",
+  "srf_2021_final": 54.2867201400105,
+  "srf_2023": 38.983050847457626,
+  "Team_end": "RCB",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207fd"
+  },
+  "Player": "Deepak Hooda",
+  "srf_2021_final": 66.48480138818677,
+  "srf_2023": 37.58539178886611,
+  "Team_end": "LSG",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207fe"
+  },
+  "Player": "Harpreet Brar",
+  "srf_2021_final": 52.3929266117695,
+  "srf_2023": 37.45423901694937,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b8207ff"
+  },
+  "Player": "Sanvir Singh",
+  "srf_2021_final": 100,
+  "srf_2023": 35.40347293156281,
+  "Team_end": "SRH",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820800"
+  },
+  "Player": "Sunil Narine",
+  "srf_2021_final": 63.013537132367546,
+  "srf_2023": 34.43267259056733,
+  "Team_end": "KKR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820801"
+  },
+  "Player": "Tristan Stubbs",
+  "srf_2021_final": 72.11338761695924,
+  "srf_2023": 34.23416571583189,
+  "Team_end": "DC",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820802"
+  },
+  "Player": "Amit Mishra",
+  "srf_2021_final": 42.70929817618526,
+  "srf_2023": 33.357398322893786,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820803"
+  },
+  "Player": "Mohammed Siraj",
+  "srf_2021_final": 34.24247262271687,
+  "srf_2023": 33.33333333333333,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820804"
+  },
+  "Player": "Praveen Dubey",
+  "srf_2021_final": 38.82596186524,
+  "srf_2023": 33.25121503661401,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820805"
+  },
+  "Player": "Rovman Powell",
+  "srf_2021_final": 63.56823739591731,
+  "srf_2023": 32.92255892255892,
+  "Team_end": "RR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820806"
+  },
+  "Player": "Noor Ahmad",
+  "srf_2021_final": 46.55774803989707,
+  "srf_2023": 32.22222222222222,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820807"
+  },
+  "Player": "Glenn Phillips",
+  "srf_2021_final": 73.51319570586924,
+  "srf_2023": 31.88879980786951,
+  "Team_end": "SRH",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820808"
+  },
+  "Player": "Adam Zampa",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/24.png",
+  "srf_2021_final": 39.64421997178167,
+  "srf_2023": 25.31720749679233,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820809"
+  },
+  "Player": "Kuldeep Yadav",
+  "srf_2021_final": 41.99874007533772,
+  "srf_2023": 25.01935836458073,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82080a"
+  },
+  "Player": "Sandeep Sharma",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/220.png",
+  "srf_2021_final": 47.768886227746144,
+  "srf_2023": 24.74747474747474,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82080b"
+  },
+  "Player": "Deepak Chahar",
+  "srf_2021_final": 52.74675954576102,
+  "srf_2023": 20.2020202020202,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82080c"
+  },
+  "Player": "Mohammed Shami",
+  "srf_2021_final": 43.460187577971624,
+  "srf_2023": 13.993574831062366,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82080d"
+  },
+  "Player": "Yash Dhull",
+  "srf_2021_final": 62.880751970062946,
+  "srf_2023": 13.94840948677978,
+  "Team_end": "DC",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82080e"
+  },
+  "Player": "Harshal Patel",
+  "srf_2021_final": 48.62988659872739,
+  "srf_2023": 12.822286794889534,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82080f"
+  },
+  "Player": "Yudhvir Singh",
+  "srf_2021_final": 27.691764963662457,
+  "srf_2023": 11.111111111111107,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820810"
+  },
+  "Player": "Fazalhaq Farooqi",
+  "srf_2021_final": 7.552767199147968,
+  "srf_2023": 5.649717514124294,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820811"
+  },
+  "Player": "Chetan Sakariya",
+  "srf_2021_final": 21.88623047489504,
+  "srf_2023": 5.238095238095234,
+  "Team_end": "KKR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820812"
+  },
+  "Player": "Rahul Chahar",
+  "srf_2021_final": 37.70318608537569,
+  "srf_2023": 3.0441400304414,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820813"
+  },
+  "Player": "Nathan Ellis",
+  "srf_2021_final": 47.945182328836175,
+  "srf_2023": 3.0441400304414,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820814"
+  },
+  "Player": "Romario Shepherd",
+  "srf_2021_final": 61.45951041687566,
+  "srf_2023": 0,
+  "Team_end": "MI",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820815"
+  },
+  "Player": "Harshit Rana",
+  "srf_2021_final": 24.48686628776394,
+  "srf_2023": 0,
+  "Team_end": "KKR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820816"
+  },
+  "Player": "Mohsin Khan",
+  "srf_2021_final": 59.769312731981685,
+  "srf_2023": 0,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820817"
+  },
+  "Player": "Darshan Nalkande",
+  "srf_2021_final": 50.26221943063911,
+  "srf_2023": 0,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820818"
+  },
+  "Player": "Kagiso Rabada",
+  "srf_2021_final": 47.97662482417994,
+  "srf_2023": 0,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820819"
+  },
+  "Player": "Yash Thakur",
+  "srf_2021_final": 50.500708793213214,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82081a"
+  },
+  "Player": "Ashton Turner",
+  "srf_2021_final": 60.88783602476685,
+  "Team_end": "LSG",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82081b"
+  },
+  "Player": "Shivam Mavi",
+  "srf_2021_final": 26.35507094143471,
+  "Team_end": "LSG",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82081c"
+  },
+  "Player": "Rajat Patidar",
+  "srf_2021_final": 83.68982139428547,
+  "Team_end": "RCB",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82081d"
+  },
+  "Player": "Will Jacks",
+  "srf_2021_final": 71.88234749637559,
+  "Team_end": "RCB",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82081e"
+  },
+  "Player": "Manoj Bhandage",
+  "srf_2021_final": 77.34201795698044,
+  "Team_end": "RCB",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82081f"
+  },
+  "Player": "Mayank Dagar",
+  "srf_2021_final": 45.62426928386259,
+  "Team_end": "RCB",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820820"
+  },
+  "Player": "Reece Topley",
+  "srf_2021_final": 40.752768274257285,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820821"
+  },
+  "Player": "Saurav Chauhan",
+  "srf_2021_final": 34.771023992117776,
+  "Team_end": "RCB",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820822"
+  },
+  "Player": "Lockie Ferguson",
+  "srf_2021_final": 55.01901695184844,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820823"
+  },
+  "Player": "Tom Curran",
+  "srf_2021_final": 61.970230124924676,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820824"
+  },
+  "Player": "Yash Dayal",
+  "srf_2021_final": 0,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820825"
+  },
+  "Player": "Sonu Yadav",
+  "srf_2021_final": 48.15254165345215,
+  "Team_end": "RCB",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820826"
+  },
+  "Player": "Shreyas Iyer",
+  "srf_2021_final": 67.45468689566202,
+  "Team_end": "KKR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820827"
+  },
+  "Player": "Mitchell Starc",
+  "srf_2021_final": 48.566179921692694,
+  "Team_end": "KKR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820828"
+  },
+  "Player": "Ramandeep Singh",
+  "srf_2021_final": 63.43881785990089,
+  "Team_end": "KKR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820829"
+  },
+  "Player": "Srikar Bharat",
+  "srf_2021_final": 59.05202369990788,
+  "Team_end": "KKR",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82082a"
+  },
+  "Player": "Sherfane Rutherford",
+  "srf_2021_final": 63.717362433155664,
+  "Team_end": "KKR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82082b"
+  },
+  "Player": "Gus Atkinson",
+  "srf_2021_final": 56.7675950452748,
+  "Team_end": "KKR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82082c"
+  },
+  "Player": "Travis Head",
+  "srf_2021_final": 59.85066220934959,
+  "Team_end": "SRH",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82082d"
+  },
+  "Player": "Upendra Yadav",
+  "srf_2021_final": 50.600763339399805,
+  "Team_end": "SRH",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82082e"
+  },
+  "Player": "Pat Cummins",
+  "srf_2021_final": 58.698070496912145,
+  "Team_end": "SRH",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82082f"
+  },
+  "Player": "Akash Singh",
+  "srf_2021_final": 49.68714530925607,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820830"
+  },
+  "Player": "T Natarajan",
+  "srf_2021_final": 35.492201929415714,
+  "Team_end": "SRH",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820831"
+  },
+  "Player": "Jonny Bairstow",
+  "srf_2021_final": 77.91090447461494,
+  "Team_end": "PBKS",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820832"
+  },
+  "Player": "Chris Woakes",
+  "srf_2021_final": 60.173327831214415,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820833"
+  },
+  "Player": "Shashank Singh",
+  "srf_2021_final": 49.34973538299059,
+  "Team_end": "PBKS",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820834"
+  },
+  "Player": "Tanay Thyagarajan",
+  "srf_2021_final": 50.95199866665065,
+  "Team_end": "PBKS",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820835"
+  },
+  "Player": "Matthew Wade",
+  "srf_2021_final": 70.87860478434763,
+  "Team_end": "GT",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820836"
+  },
+  "Player": "Jayant Yadav",
+  "srf_2021_final": 41.92032659462323,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820837"
+  },
+  "Player": "Kane Williamson",
+  "srf_2021_final": 66.35561386077795,
+  "Team_end": "GT",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820838"
+  },
+  "Player": "Josh Little",
+  "srf_2021_final": 51.36611628860821,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820839"
+  },
+  "Player": "Kartik Tyagi",
+  "srf_2021_final": 36.71665637386688,
+  "Team_end": "GT",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82083a"
+  },
+  "Player": "Manav Suthar",
+  "srf_2021_final": 0,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82083b"
+  },
+  "Player": "Azmatullah Omarzai",
+  "srf_2021_final": 57.19913286868685,
+  "Team_end": "GT",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82083c"
+  },
+  "Player": "Dewald Brevis",
+  "srf_2021_final": 60.768794078670695,
+  "Team_end": "MI",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82083d"
+  },
+  "Player": "Shreyas Gopal",
+  "srf_2021_final": 44.420134818797806,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82083e"
+  },
+  "Player": "Jasprit Bumrah",
+  "srf_2021_final": 42.31203811804361,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82083f"
+  },
+  "Player": "Gerald Coetzee",
+  "srf_2021_final": 40.51803213643772,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820840"
+  },
+  "Player": "Dilshan Madushanka",
+  "srf_2021_final": 42.00260226520285,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820841"
+  },
+  "Player": "Shams Mulani",
+  "srf_2021_final": 41.34954038963875,
+  "Team_end": "MI",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820842"
+  },
+  "Player": "Anshul Kamboj",
+  "srf_2021_final": 25.49743537265578,
+  "Team_end": "MI",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820843"
+  },
+  "Player": "Mohammad Nabi",
+  "srf_2021_final": 62.48524261516592,
+  "Team_end": "MI",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820844"
+  },
+  "Player": "Rachin Ravindra",
+  "srf_2021_final": 56.72765186239216,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820845"
+  },
+  "Player": "Daryl Mitchell",
+  "srf_2021_final": 68.90299293760023,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820846"
+  },
+  "Player": "Maheesh Theekshana",
+  "srf_2021_final": 41.494592633276774,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820847"
+  },
+  "Player": "Matheesha Pathirana",
+  "srf_2021_final": 24.079706241428273,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820848"
+  },
+  "Player": "Mukesh Choudhary",
+  "srf_2021_final": 32.70450780557909,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820849"
+  },
+  "Player": "Simarjeet Singh",
+  "srf_2021_final": 45.68135177897294,
+  "Team_end": "CSK",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82084a"
+  },
+  "Player": "Sameer Rizvi",
+  "srf_2021_final": 31.629142128733168,
+  "Team_end": "CSK",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82084b"
+  },
+  "Player": "Shaik Rasheed",
+  "srf_2021_final": 69.7087496253683,
+  "Team_end": "CSK",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82084c"
+  },
+  "Player": "Nishant Sindhu",
+  "srf_2021_final": 74.74134311319717,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82084d"
+  },
+  "Player": "Ajay Mandal",
+  "srf_2021_final": 30.773145288397576,
+  "Team_end": "CSK",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82084e"
+  },
+  "Player": "Khaleel Ahmed",
+  "srf_2021_final": 22.24715542164492,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82084f"
+  },
+  "Player": "Lungi Ngidi",
+  "srf_2021_final": 34.76480292163091,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820850"
+  },
+  "Player": "Rishabh Pant",
+  "srf_2021_final": 71.026384654732,
+  "Team_end": "DC",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820851"
+  },
+  "Player": "Ricky Bhui",
+  "srf_2021_final": 60.607975462039974,
+  "Team_end": "DC",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820852"
+  },
+  "Player": "Kumar Kushagra",
+  "srf_2021_final": 0,
+  "Team_end": "DC",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820853"
+  },
+  "Player": "Shai Hope",
+  "srf_2021_final": 56.001764623253415,
+  "Team_end": "DC",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820854"
+  },
+  "Player": "Sumit Kumar",
+  "srf_2021_final": 45.83631565893867,
+  "Team_end": "DC",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820855"
+  },
+  "Player": "Jhye Richardson",
+  "srf_2021_final": 46.413314555647986,
+  "Team_end": "DC",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820856"
+  },
+  "Player": "Prasidh Krishna",
+  "link":"https://www.rajasthanroyals.com/static-assets/images/players/65702.png?v=6.02",
+  "srf_2021_final": 13.511854937713974,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820857"
+  },
+  "Player": "Yuzvendra Chahal",
+  "link":"https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/10.png",
+  "srf_2021_final": 37.65114577735339,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820858"
+  },
+  "Player": "Navdeep Saini",
+  "srf_2021_final": 40.02925779326901,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b820859"
+  },
+  "Player": "Kuldeep Sen",
+  "srf_2021_final": 0,
+  "Team_end": "RR",
+  "Role_end": "Bowler"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82085a"
+  },
+  "Player": "Shubham Dubey",
+  "srf_2021_final": 49.5688631773759,
+  "Team_end": "RR",
+  "Role_end": "Batter"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82085b"
+  },
+  "Player": "Abid Mushtaq",
+  "srf_2021_final": 45.744373266654286,
+  "Team_end": "RR",
+  "Role_end": "Allrounder"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82085c"
+  },
+  "Player": "Donavon Ferreira",
+  "srf_2021_final": 76.45314694851643,
+  "Team_end": "RR",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82085d"
+  },
+  "Player": "Kunal Singh Rathore",
+  "srf_2021_final": 73.61501884296908,
+  "Team_end": "RR",
+  "Role_end": "Wicketkeeper"
+},
+{
+  "_id": {
+    "$oid": "65fb0394c0a602037b82085e"
+  },
+  "Player": "Tom Kohler-Cadmore",
+  "srf_2021_final": 66.76348701438161,
+  "Team_end": "RR",
+  "Role_end": "Wicketkeeper"
+}]
+var count=0;
+function populateBox(team){
+    if(count%2==0){
+        populateBattingBox(team)
+
+    }
+    else{
+        populateBowlingBox(team)
+    }
+    count++
+}
+
+// Function to populate the batting box based on the selected team
+function populateBattingBox(team) {
+    const battingBox = document.querySelector('.batsmen-box');
+    // Clear existing content
+    battingBox.innerHTML = '  <H1 for="Enter" style="color: white;">Batting Team</H1>';
+
+    // Filter players based on the selected team
+    const players = playerData.filter(player => player.Team_end === team);
+
+    // Populate the batting box with players
+    players.forEach(player => {
+        const user = document.createElement('div');
+        user.classList.add('user');
+        user.onclick = function() { toggleCheckbox(this); };
+        if(!player.srf_2021_final){
+          player.srf_2021_final=0
+        }
+        else{
+          player.srf_2021_final=(player.srf_2021_final).toFixed(2)
+        }
+        if(!player.srf_2023){
+          player.srf_2023=0
+        }
+        else{
+          player.srf_2023=(player.srf_2023).toFixed(2)
+        }
+        if(player.link){
+        user.innerHTML = `
+        <div class='info'>
+            <img src="${player.link}" alt="User Photo">
+            <p class="user-name">${player.Player}</p>
+            <input class="custom-checkbox" type="checkbox" data-name="${player.Player}">
+            </div>
+            <table class='data' style="width:100%">
+  <tr>
+    <td>SRF_2021</td>
+    <td>SRF_2023</td>
+  </tr>
+  <tr>
+    <td>${player.srf_2021_final}</td>
+    <td>${player.srf_2023}</td>
+    
+  </tr>
+</table>
+           
+        `;}
+        else{
+            user.innerHTML = `
+            <div class="info">
+            <img src="https://www.iplt20.com/assets/images/default-headshot.png" alt="User Photo">
+            <p class="user-name">${player.Player}</p>
+            <input class="custom-checkbox" type="checkbox" data-name="${player.Player}">
+            </div>
+            <table class='data' style="width:100%">
+  <tr>
+    <td>SRF_2021</td>
+    <td>SRF_2023</td>
+  </tr>
+  <tr>
+    <td>${player.srf_2021_final}</td>
+    <td>${player.srf_2023}</td>
+    
+  </tr>
+</table>
+        `
+        }
+        battingBox.appendChild(user);
+    });
+}
+function populateBowlingBox(team) {
+    const battingBox = document.querySelector('.bowlers-box');
+    // Clear existing content
+    battingBox.innerHTML = '  <H1 for="Enter" style="color: white;">Bowling Team</H1>';
+
+    // Filter players based on the selected team
+    const players = playerData.filter(player => player.Team_end === team);
+
+    // Populate the batting box with players
+    players.forEach(player => {
+        const user = document.createElement('div');
+        user.classList.add('user');
+        user.onclick = function() { toggleCheckbox(this); };
+        if(player.link){
+        user.innerHTML = `
+            <img src="${player.link}" alt="User Photo">
+            <p class="user-name">${player.Player}</p>
+            <input class="custom-checkbox" type="checkbox" data-name="${player.Player}">
+        `;}
+        else{
+            user.innerHTML = `
+            <img src="https://www.iplt20.com/assets/images/default-headshot.png" alt="User Photo">
+            <p class="user-name">${player.Player}</p>
+            <input class="custom-checkbox" type="checkbox" data-name="${player.Player}">
+        `
+        }
+        battingBox.appendChild(user);
+    });
+}
+
+// Function to get player image URL based on player data
+function getPlayerImage(player) {
+    // You need to implement logic to determine the image URL based on player data
+    // For now, returning a placeholder image URL
+    return 'placeholder_image_url'; // Replace 'placeholder_image_url' with actual image URL
+}
+window.onload = function() {
+    alert("To select the batting team, click on a team logo first and then select the bowling team similarly");
+};
+
+
+
+function rank() {
+  var jd={
+  final_stats
+}
+
+            fetch('http://127.0.0.1:3000/sort_rank', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                
+            },
+            body: JSON.stringify(jd)
+        })
+        .then(response => response.json())
+        .then(data => {
+        
+            console.log('Final Ranking:', data);
+            // Handle response as needed         
+           
+})
+        .catch(error => {
+            console.error('Error generating analysis:', error);
+        });
+}
+
+</script>
+
+
+</body>
+</html>
