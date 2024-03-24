@@ -334,9 +334,26 @@ table {
             <button class="button-64" role="button" onclick="generateAnalytics()">
                 <span class="text">Generate Analysis</span>
             </button>
-            <button class="button-64" role="button" onclick="rank()">
+
+            <button class="button-64" style="margin-top:30px ;" role="button" onclick="rank()">
               <span class="text">View</span>
           </button>
+          <br>
+          
+          <table id="ranking" >
+            <thead>
+            <tr>
+             
+              <th>Batsman</th>
+              <th>SRF</th>
+            </tr>
+            </thead>
+            
+            <tbody>
+
+            </tbody>
+           
+          </table>
             
            
            
@@ -2846,10 +2863,31 @@ function rank() {
         })
         .then(response => response.json())
         .then(data => {
-        
+          const tableBody = document.querySelector('#ranking tbody');
+
+// Clear existing table rows
+tableBody.innerHTML = '';
             console.log('Final Ranking:', data);
-            // Handle response as needed         
-           
+            const sortedRanking = Object.entries(data)
+  .sort((a, b) => b[1] - a[1])
+  .reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {});
+
+          for(batter in data){
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${batter}</td>
+               <td>${data[batter]}</td>
+            `;
+            tableBody.appendChild(row);
+          }
+          var pred=final_stats[4].message[0]
+          const r1 = document.createElement('tr');
+          r1.innerHTML=`${pred}`
+          tableBody.appendChild(r1);
 })
         .catch(error => {
             console.error('Error generating analysis:', error);
